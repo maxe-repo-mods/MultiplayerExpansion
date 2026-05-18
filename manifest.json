@@ -1,0 +1,9 @@
+{
+  "name": "MultiplayerExpansion",
+  "version_number": "1.0.0",
+  "website_url": "",
+  "description": "Removes the player limit and enables late joining mid-run with full state sync.",
+  "dependencies": [
+    "BepInEx-BepInExPack-5.4.2100"
+  ]
+}
