@@ -68,9 +68,7 @@ public static class LobbyPatches
         try
         {
             if (!SteamClient.IsValid) return;
-            if (SteamManager.instance == null) return;
-            var lobby = SteamManager.instance.currentLobby;
-            if (lobby.Id != 0)
+            if (SteamLobby.TryGetCurrent(out var lobby))
                 lobby.SetJoinable(true);
         }
         catch { }
@@ -91,9 +89,7 @@ public static class LobbyPatches
         try
         {
             if (!SteamClient.IsValid) return;
-            if (SteamManager.instance == null) return;
-            var lobby = SteamManager.instance.currentLobby;
-            if (lobby.Id != 0)
+            if (SteamLobby.TryGetCurrent(out var lobby))
                 lobby.SetJoinable(false);
         }
         catch { }

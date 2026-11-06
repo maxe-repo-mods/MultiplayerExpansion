@@ -1,6 +1,6 @@
 {
   "name": "MultiplayerExpansion",
-  "version_number": "1.0.5",
+  "version_number": "1.0.6",
   "website_url": "https://github.com/maxe-repo-mods/MultiplayerExpansion",
   "description": "Removes the player limit and enables late joining mid-run with full state sync.",
   "dependencies": [

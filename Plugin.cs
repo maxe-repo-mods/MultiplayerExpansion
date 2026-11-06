@@ -13,7 +13,7 @@ public class Plugin : BaseUnityPlugin
 {
     private const string PluginGuid = "maxenterme.MultiplayerExpansion";
     private const string PluginName = "MultiplayerExpansion";
-    private const string PluginVersion = "1.0.5";
+    private const string PluginVersion = "1.0.6";
 
     internal static Plugin Instance { get; private set; } = null!;
     internal new static ManualLogSource Logger => Instance._logger;
@@ -67,14 +67,25 @@ public class Plugin : BaseUnityPlugin
             yield return new WaitForSeconds(0.5f);
 
             if (!SteamClient.IsValid) continue;
-            if (SteamManager.instance == null) continue;
-
-            var lobby = SteamManager.instance.currentLobby;
-            if (lobby.Id == 0) continue;
+            if (!SteamLobby.TryGetCurrent(out var lobby)) continue;
 
             lobby.MaxMembers = MaxPlayers.Value;
             Logger.LogInfo($"Steam lobby MaxMembers set to {MaxPlayers.Value}");
             break;
         }
+    }
+
+    /// <summary>
+    /// Keep the game's own limit in step with the config. The game creates rooms and
+    /// lobbies from GameManager.maxPlayers and, when a member leaves, shrinks the lobby
+    /// back to it. SetMaxPlayers clamps to maxPlayersPhoton, so that is raised first.
+    /// </summary>
+    internal static void ApplyMaxPlayers()
+    {
+        var gameManager = GameManager.instance;
+        if (gameManager == null) return;
+
+        gameManager.maxPlayersPhoton = Mathf.Max(gameManager.maxPlayersPhoton, MaxPlayers.Value);
+        gameManager.SetMaxPlayers(MaxPlayers.Value);
     }
 }
